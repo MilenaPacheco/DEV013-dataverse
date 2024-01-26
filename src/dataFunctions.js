@@ -1,10 +1,11 @@
-// Estas funciones son ejemplos, aquí puedes desarrollar tus propias funciones.
-
+//Función que filtra
 export const filterData = (data, filterBy, value) => {
-  const filterMovie = data.filter(film => film.facts[filterBy] === value); 
+  const filterMovie = data.filter(film => film.facts[filterBy] === value);
   return filterMovie;
 };
 
+
+//Función que ordena
 export const sortData = (data, sortBy, sortOrder) => {
   const sortedData = data.sort((a, b) => {
     if (sortOrder === "asc") {
@@ -23,45 +24,15 @@ export const sortData = (data, sortBy, sortOrder) => {
   });
   return sortedData;
 };
-/*
-export const computeStats = (data) => {
-  //  Quitar porcentaje en score   data.extraInfo.rottenTomatoesScore
-  const scoreWithoutPerc = data.map((film) => parseFloat(film.extraInfo.rottenTomatoesScore));
-  
-  const scoreOut50 = scoreWithoutPerc.filter((film) => {
-    return 50 <= film && film < 70;
-  });
-  console.log("muestro array sobre 50: "+ scoreOut50)
-  //console.log("array de pelis con puntajw mayor a 50 y menor 70: "+ scoreOut50 );
-  console.log(typeof(scoreOut50))
-
-  const scoreOut70 = scoreWithoutPerc.filter((film) => {
-    return 70 <= film && film < 90;
-  });
-  console.log("muestro array sobre 70: "+ scoreOut70)
-  const scoreOut90 = scoreWithoutPerc.filter((film) => {
-    return 90 <= film && film <= 100;
-  });
-  console.log("muestro array sobre 90: "+ scoreOut90)
 
 
-  const perOut50 = Math.round(((scoreOut50.length)*100)/data.length);
-  console.log(perOut50)
-  const perOut70 = Math.round((scoreOut70.length * 100) / data.length);
-  console.log(perOut70)
-  const perOut90 = Math.round((scoreOut90.length * 100) / data.length);
-  console.log(perOut90)
-  return {
-    //scoreOut50
-    scoreOut70,
-    //scoreOut90,
-  };
-}*/
 
+
+//Función para clasificar películas de la data según score en Rotten Tomatoes.
 export const computeStatsScore = (data) => {
   //  Quitar porcentaje en score   data.extraInfo.rottenTomatoesScore
   const scoreOut50 = data.filter((film) => {
-    const score = parseFloat(film.extraInfo.rottenTomatoesScore); 
+    const score = parseFloat(film.extraInfo.rottenTomatoesScore);
     return 50 <= score && score < 70;
   });
 
@@ -106,18 +77,23 @@ export const computeStatsScore = (data) => {
   };
 };
 
+
+
+//Función para calcular frecuencia de países.
 export const computeStats = (data) => {
   const countryFrequencies = data.map((movie) => {
     const country = movie.extraInfo.countryMovie;
     const name = movie.name;
-    
+
     return {
       country,
       movieName: name,
     };
   });
+
   const countryFrequency = countryFrequencies.reduce((acumulador, movie) => {
     const country = movie.country;
+
     // Verificar si el país ya está en el acumulador
     if (!acumulador[country]) {
       acumulador[country] = {
@@ -125,17 +101,29 @@ export const computeStats = (data) => {
         movies: []
       };
     }
+
     // Incrementar la frecuencia y agregar la película a la lista
     acumulador[country].count += 1;
     acumulador[country].movies.push(movie.movieName);
+
     return acumulador;
   }, {});
+
   // Devolver la frecuencia de películas por país directamente
   return countryFrequency;
 };
 
+/*export const filterData = (data, filterBy, value) => {
+  const filteredData = data.filter(film => film.facts[filterBy] === value);
+  return filteredData;
+};*/
 
-
-
-
-
+/*export const sortData = (data, sortBy, sortOrder) => {
+  //console.log(sortBy);
+  const copyArray = [...data];
+  if (sortBy === "name") {
+    return copyArray.sort((a, b) => (sortOrder === "asc" ? a[sortBy].localeCompare(b[sortBy]) : b[sortBy].localeCompare(a[sortBy])));
+  } else if (sortBy === "yearMovie") {
+    return copyArray.sort((a, b) => (sortOrder === "asc" ? a.facts[sortBy] - b.facts[sortBy] : b.facts[sortBy] - a.facts[sortBy]));
+  }
+};*/

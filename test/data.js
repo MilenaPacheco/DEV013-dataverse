@@ -1,5 +1,3 @@
-// Aqui puedes agregar los datos que necesites para tus pruebas
-// al menos debe tener uno que se llame "data"
 export const data = [
   {
     "id": "hackers",
@@ -57,4 +55,5 @@ export const data = [
       "countryMovie": "Canadá",
       "durationMovie": "96 minutos"
     }
-  }]
+  },];
+
